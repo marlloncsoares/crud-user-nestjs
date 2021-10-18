@@ -1,6 +1,8 @@
 # compiled output
 /backend/dist
 /backend/node_modules
+/node_modules
+yarn*.lock
 
 # Logs
 /backend/logs
