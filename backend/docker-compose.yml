@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mongodb-estudos-service:
+      image: bitnami/mongodb:latest
+      networks:
+        - base_network
+      ports: 
+        - "27027:27017"
+      volumes:
+        - database_estudos_mongodb:/bitnami/database_estudos_mongodb
+      environment:
+        MONGODB_USERNAME: ${CONNECTION_USERS_MONGODB_USERNAME}
+        MONGODB_PASSWORD: ${CONNECTION_USERS_MONGODB_PASSWORD}
+        MONGODB_DATABASE: ${CONNECTION_USERS_MONGODB_DATABASE}
+
+networks:
+  base_network:
+
+volumes:
+  database_estudos_mongodb:
