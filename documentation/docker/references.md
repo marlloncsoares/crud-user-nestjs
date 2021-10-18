@@ -1,0 +1,1 @@
+- Configurando um projeto NestJS com Docker para desenvolvimento de back-end. Disponível em: https://dev.to/erezhod/setting-up-a-nestjs-project-with-docker-for-back-end-development-30lg. Acesso em 17/10/2021 às 23:30
