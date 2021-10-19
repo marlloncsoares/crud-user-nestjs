@@ -2,6 +2,12 @@ import { Config } from './config.interface';
 
 export default (): Config => {
   return {
+    graphql: {
+      playgroundEnabled: true,
+      debug: true,
+      sortSchema: false,
+    },
+
     mongodb: {
       username: process.env.MONGODB_USERNAME,
       password: process.env.MONGODB_PASSWORD,
