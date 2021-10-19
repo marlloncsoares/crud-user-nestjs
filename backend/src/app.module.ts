@@ -16,13 +16,14 @@ import { GraphqlConfig } from './configs/config.interface';
       isGlobal: true,
       load: [config],
     }),
-
+    UsersModule,
+    // Configura GraphQL
     GraphQLModule.forRootAsync({
       useFactory: async (configService: ConfigService) => {
         const graphqlConfig = configService.get<GraphqlConfig>('graphql');
         return {
+          autoSchemaFile: './schema.graphql',
           sortSchema: graphqlConfig.sortSchema,
-          autoSchemaFile: './src/schema.graphql',
           installSubscriptionHandlers: true,
           buildSchemaOptions: {
             numberScalarMode: 'integer',
@@ -34,15 +35,13 @@ import { GraphqlConfig } from './configs/config.interface';
       },
       inject: [ConfigService],
     }),
-
     // Configura MongooseModule
     MongooseModule.forRootAsync({
       inject: [DatabaseService],
       imports: [DatabaseModule],
-      useFactory: (databaseService: DatabaseService) =>
+      useFactory: async (databaseService: DatabaseService) =>
         databaseService.createMongooseOptions(),
     }),
-    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
