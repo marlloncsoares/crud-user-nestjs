@@ -1,21 +1,55 @@
 version: '3'
 
 services:
+
   mongodb-estudos-service:
-      image: bitnami/mongodb:latest
-      networks:
-        - base_network
-      ports: 
-        - "27027:27017"
-      volumes:
-        - database_estudos_mongodb:/bitnami/database_estudos_mongodb
-      environment:
-        MONGODB_USERNAME: ${CONNECTION_USERS_MONGODB_USERNAME}
-        MONGODB_PASSWORD: ${CONNECTION_USERS_MONGODB_PASSWORD}
-        MONGODB_DATABASE: ${CONNECTION_USERS_MONGODB_DATABASE}
+    image: bitnami/mongodb:latest
+    networks:
+      - base_network
+      - mongodb_network
+    ports: 
+      - "27027:27017"
+    volumes:
+      - database_estudos_mongodb:/bitnami/database_estudos_mongodb
+    environment:
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+
+  # --------------------------------------------
+  # Crud Nest User
+  # --------------------------------------------
+  application-crud-nestjs:
+    container_name: app_nestjs
+    image: "node:${NODE_VERSION}"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    working_dir: ${WORKING_DIR}
+    networks:
+      - base_network
+      - mongodb_network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb-estudos-service
+    volumes:
+      - .:${WORKING_DIR}/app
+      - .:${WORKING_DIR}/app/node_modules
+    command: sh -c "npm run start:dev"
+    environment:
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      MONGODB_HOST: ${MONGODB_HOST}
+      MONGODB_PORT: ${MONGODB_PORT}
+
 
 networks:
   base_network:
+  mongodb_network:
 
 volumes:
   database_estudos_mongodb:

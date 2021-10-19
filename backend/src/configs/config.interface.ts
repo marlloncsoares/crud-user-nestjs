@@ -1,6 +1,5 @@
 export interface Config {
-  mongodbUsers: MongodbConfig;
-  mongodbConnections?: MongodbConnection;
+  mongodb: MongodbConfig;
 }
 
 export interface MongodbConfig {
@@ -10,8 +9,4 @@ export interface MongodbConfig {
   port: number;
   database: string;
   uri?: string;
-}
-
-export interface MongodbConnection {
-  uriUsers: string;
 }
